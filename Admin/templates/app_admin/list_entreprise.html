@@ -1,0 +1,123 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PME Control</title>
+    <link rel="shortcut icon" href="{% static "favicon.ico" %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static "bootstrap.css" %}">
+    <link rel="stylesheet" href="{% static "bootstrap-icons.css" %}">
+    <link rel="stylesheet" href="{% static "style.css" %}">
+    {% comment %} Police de google font {% endcomment %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="navbar navbar-dark sticky-top bg-primary flex-md-nowrap p-0 shadow">
+        <a class="navbar-brand col-md-3 col-lg-2 me-0 fs-6 px-3" href=""> PME Control</a>
+        <button class="navbar-toggler position-absolute d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </header>
+    <div class="container-fluid">
+        <div class="row">
+            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a href="{% url "view_list_entreprise" %}" class="nav-link"><i class="bi bi-boxes"></i> PME</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url "view_add_user" %}" class="nav-link"><i class="bi bi-person"></i> Admin</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url "view_deconnexion" %}" class="nav-link"><i class="bi bi-box-arrow-right"></i> Déconexion</a>
+                        </li>
+                    </ul>   
+                </div>
+            </nav>
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="container mt-3">
+                    <div class="row">
+                        <div class="col-md-4 p-1 mb-1">
+                            <div class="d-flex justify-content-between p-2 dash bg-primary">
+                                <div>
+                                    <p class="text-white mb-1">Total PME</p>
+                                    <p class="text-white mb-1 number-actif">{{totalEntreprise}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 p-1 mb-1">
+                            <div class="d-flex justify-content-between p-2 dash  bg-primary">
+                                <div>
+                                    <p class="text-white mb-1">Régulation</p>
+                                    <p class="text-white mb-1 number-actif">{{regulationEntreprise}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 p-1 mb-1">
+                            <div class="d-flex justify-content-between p-2 dash  bg-primary">
+                                <div>
+                                    <p class="text-white mb-1">Activité</p>
+                                    <p class="text-white mb-1 number-actif">{{activityEntreprise}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class='row mt-2'>
+                        <div class="col-md-10 mx-3">
+                            <input type="search" class="form-control">
+                        </div>
+                        <div class="col-md-1">
+                            <button class='btn btn-primary' type='submit'>Recherche</button>
+                        </div>
+                        
+                    </div>
+                </div>
+                <table class="table mt-5">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Adresse complète</th>
+                            <th scope="col">Date de création</th>
+                            <th scope="col">Entrepreneur</th> 
+                            <th scope="col">Nombre d'employés</th>
+                            <th scope="col">Régulation</th>
+                            <th scope="col">Activité</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entreprise in entreprises %}
+                            <tr>
+                                <td>{{entreprise.name}}</td>
+                                <td>{{entreprise.fullAddress}}</td>
+                                <td>{{entreprise.creationDate}}</td>
+                                <td>{{entreprise.entrepreneur}}</td>
+                                <td>{{entreprise.NumberOfEmployees}}</td>
+                                <td>
+                                    {% if entreprise.regulation == 'non_conforme' %}Non conforme
+                                    {% else %}
+                                    Conforme
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if entreprise.activity == True %}
+                                        <i class="bi bi-check-circle-fill color-success"></i>
+                                    {% else %}
+                                    <i class="bi bi-check-circle-fill color-danger"></i></td>
+                                    {% endif %}
+                                    
+                                    
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

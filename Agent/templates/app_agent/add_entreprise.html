@@ -1,0 +1,148 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PME Control</title>
+    <link rel="shortcut icon" href="{% static "favicon.ico" %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static "bootstrap.css" %}">
+    <link rel="stylesheet" href="{% static "bootstrap-icons.css" %}">
+    <link rel="stylesheet" href="{% static "style.css" %}">
+    {% comment %} Police de google font {% endcomment %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="navbar navbar-dark sticky-top bg-primary flex-md-nowrap p-0 shadow">
+        <a class="navbar-brand col-md-3 col-lg-2 me-0 fs-6 px-3" href=""> PME Control</a>
+        <button class="navbar-toggler position-absolute d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </header>
+    <div class="container-fluid">
+        <div class="row">
+            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a href="{% url "view_addEntreprise" %}" class="nav-link"><i class="bi bi-boxes"></i> PME</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url "view_deconnexion" %}" class="nav-link"><i class="bi bi-box-arrow-right"></i> Déconexion</a>
+                        </li>
+                    </ul> 
+                </div>
+            </nav>
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                {% if messages %}
+                {% for message in messages %}
+                    <div class="alert {{message.tags}} text-center mt-5">{{message}}</div>
+                {% endfor %}
+                {% endif %}
+                <form action="" method="post" class='mt-5'>
+                    {% csrf_token %}
+                    <div class="container">
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="floatinglastname" name="name">
+                                    <label for="floatinglastname">Nom</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="floatingUsername" name="fullAddress">
+                                    <label for="floatingfirstname">Adresse complète</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="floatingpassword1" name="entrepreneur">
+                                    <label for="floatingpassword1">Entrepreneur</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input type="date" class="form-control" id="floatingpassword2" name="creationDate">
+                                    <label for="floatingpassword2">Date de creation</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-5">
+                            <div class="col-md-4">
+                                <div class="form-floating">
+                                    <select class="form-select" id="floatingSelect" aria-label="Floating label select example" name="regulation">
+                                        <option value="conforme">Conforme</option>
+                                        <option value="non_conforme">Non conforme</option>
+                                    </select>
+                                    <label for="floatingSelect">Régulation</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-floating mb-3">
+                                    <input type="number" class="form-control" id="floatingpassword1" min="1" name="NumberOfEmployees">
+                                    <label for="floatingpassword1">Nombre d'employés</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-floating">
+                                    <select class="form-select" id="floatingSelect" aria-label="Floating label select example" name="activity">
+                                        <option value="True">Oui</option>
+                                        <option value="False">Non</option>
+                                    </select>
+                                    <label for="floatingSelect">Activité</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <button class='btn btn-primary w-100'>Enregistrer</button>
+                    </div>
+                </form>
+                <table class="table mt-5">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Adresse complète</th>
+                            <th scope="col">Date de création</th>
+                            <th scope="col">Entrepreneur</th> 
+                            <th scope="col">Nombre d'employés</th>
+                            <th scope="col">Régulation</th>
+                            <th scope="col">Activité</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entreprise in entreprises %}
+                            <tr>
+                                <td>{{entreprise.name}}</td>
+                                <td>{{entreprise.fullAddress}}</td>
+                                <td>{{entreprise.creationDate}}</td>
+                                <td>{{entreprise.entrepreneur}}</td>
+                                <td>{{entreprise.NumberOfEmployees}}</td>
+                                <td>
+                                    {% if entreprise.regulation == 'non_conforme' %}Non conforme
+                                    {% else %}
+                                    Conforme
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if entreprise.activity == True %}
+                                        <i class="bi bi-check-circle-fill color-success"></i>
+                                    {% else %}
+                                    <i class="bi bi-check-circle-fill color-danger"></i></td>
+                                    {% endif %}
+                                    
+                                    
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

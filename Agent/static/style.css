@@ -1,0 +1,72 @@
+body{
+    font-family: 'Montserrat', sans-serif;
+}
+.main{
+    margin-top: 17vh;
+}
+.form-control, .form-label, .btn, label, .text-page, .form-select{
+    font-size: 12px;
+    letter-spacing: .4px;
+}
+.alert {
+    height: 3px;
+    line-height: 2px;
+    font-size: 12px;
+}
+.navbar-brand {
+    padding-top: .70rem;
+    padding-bottom: .70rem;
+    font-size: 14px !important;
+    letter-spacing: 0.3px;
+    font-weight: 550;
+}
+.navbar .navbar-toggler {
+    top: .25rem;
+    right: 0.3rem;
+}
+.sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    padding: 48px 0 0;
+    background-color: rgb(243, 243, 243) !important;
+}
+.sidebar-sticky {
+    position: relative;
+    top: 0;
+    height: calc(100vh - 48px);
+    padding-top: .5rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.sidebar .nav-link {
+    font-weight: 500;
+    color: #333;
+    margin-left: 6px;
+    font-size: 12px;
+}
+th, td{
+  font-size: 11px ;
+  text-align: center;
+}
+.dash {
+  border-radius: 6px;
+  background-color: rgb(26, 67, 108);
+  font-size: 12px;
+}
+.number-actif{
+  font-size: 13px;
+  font-weight: bold;
+}
+.color-success{
+  color: rgb(12, 118, 62);
+}
+.color-danger{
+  color: rgb(168, 13, 13);
+}
+option, select{
+  font-size: 11px !important;
+}

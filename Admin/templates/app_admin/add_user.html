@@ -1,0 +1,108 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PME Control</title>
+    <link rel="shortcut icon" href="{% static "favicon.ico" %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static "bootstrap.css" %}">
+    <link rel="stylesheet" href="{% static "bootstrap-icons.css" %}">
+    <link rel="stylesheet" href="{% static "style.css" %}">
+    {% comment %} Police de google font {% endcomment %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="navbar navbar-dark sticky-top bg-primary flex-md-nowrap p-0 shadow">
+        <a class="navbar-brand col-md-3 col-lg-2 me-0 fs-6 px-3" href=""> PME Control</a>
+        <button class="navbar-toggler position-absolute d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </header>
+    <div class="container-fluid">
+        <div class="row">
+            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a href="{% url "view_list_entreprise" %}" class="nav-link"><i class="bi bi-boxes"></i> PME</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url "view_add_user" %}" class="nav-link"><i class="bi bi-person"></i> Admin</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url "view_deconnexion" %}" class="nav-link"><i class="bi bi-box-arrow-right"></i> Déconexion</a>
+                        </li>
+                    </ul> 
+                </div>
+            </nav>
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                {% if messages %}
+                {% for message in messages %}
+                    <div class="alert {{message.tags}} text-center mt-5">{{message}}</div>
+                {% endfor %}
+                {% endif %}
+                <form action="" method="post" class='mt-5'>
+                    {% csrf_token %}
+                    <div class="container">
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="floatinglastname" name="lastname">
+                                    <label for="floatinglastname">Nom</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="floatingUsername" name="firstname">
+                                    <label for="floatingfirstname">Prénom</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="floatingpassword1" name="password1">
+                                    <label for="floatingpassword1">Mot de passe</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="floatingpassword2" name="password2">
+                                    <label for="floatingpassword2">Confirmer le mot de passe</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <button class='btn btn-primary w-100'>Enregistrer</button>
+                    </div>
+                </form>
+
+                <table class="table mt-3">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nom Utilisateur</th>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Prénom</th>
+                            <th scope="col">Statut</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                            <tr>
+                                <td>{{user.username}}</td>
+                                <td>{{user.last_name}}</td>
+                                <td>{{user.first_name}}</td>
+                                <td>Agent</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </main>
+        </div>
+    </div>
+</body>
+</html>
